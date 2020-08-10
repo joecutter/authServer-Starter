@@ -10,21 +10,23 @@ import java.util.Set;
 
 @Data
 @Entity
-@Table(name="users")
+@Table(name="user")
 public class UsersEntity implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    Long id;
     String email;
     String username;
     String phone;
     String password;
     Boolean enabled;
+//    Boolean accountNonExpired;
+//    Boolean credentialsNonExpired;
+//    Boolean accountNonLocked;
     Date createdAt;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "userAuthority",
-            joinColumns = { @JoinColumn(name = "user_id") },
-            inverseJoinColumns = { @JoinColumn(name = "authority_id") })
+    @JoinTable(name = "role_user",joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "role_id") })
     private Set<RolesEntity> roles = new HashSet<>();
 }

@@ -1,9 +1,8 @@
 package com.kisokolab.authserver.controller;
 
-import com.kisokolab.authserver.dao.AppsDao;
+import com.kisokolab.authserver.dao.OauthClientDetailsDao;
 import com.kisokolab.authserver.model.req.ClientRegistrationReq;
 import com.kisokolab.authserver.model.res.ApiResModel;
-import com.kisokolab.authserver.model.req.SignupReqModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +20,16 @@ public class AppsController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    AppsDao appsDao;
+    OauthClientDetailsDao oauthClientDetailsDao;
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody ClientRegistrationReq clientRegistrationReq) {
         logger.info("Register Application");
-        if (appsDao.existsByClientId(clientRegistrationReq.getClientName())) {
+        if (oauthClientDetailsDao.existsByClientId(clientRegistrationReq.getClientName())) {
             return ResponseEntity
                     .badRequest()
                     .body(new ApiResModel(400,false,"Error: Client ID is already in use!"));
         }
-        return ResponseEntity.ok(appsDao.createClient(clientRegistrationReq));
+        return ResponseEntity.ok(oauthClientDetailsDao.createClient(clientRegistrationReq));
     }
 }

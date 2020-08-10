@@ -7,15 +7,12 @@ import com.kisokolab.authserver.model.req.SignupReqModel;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(path="/api/auth")
+@RequestMapping(path="/api/user")
 public class UsersController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -31,5 +28,11 @@ public class UsersController {
                     .body(new ApiResModel(400,false,"Error: Email is already in use!"));
         }
         return ResponseEntity.ok(usersDao.createUser(signupReqModel));
+    }
+
+    @GetMapping("/details")
+    public ResponseEntity<?> getUserDetails(@Valid @RequestParam("username") String username) {
+        logger.info("User Details");
+        return ResponseEntity.ok(usersDao.findUserByEmail(username));
     }
 }

@@ -11,7 +11,7 @@ import com.kisokolab.authserver.repo.UsersRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -30,7 +30,7 @@ public class UserDaoImpl implements UsersDao {
     RolesRepo rolesRepo;
 
     @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+    PasswordEncoder userPasswordEncoder;
 
     @Override
     public ApiResModel createUser(SignupReqModel signupReqModel) {
@@ -39,9 +39,10 @@ public class UserDaoImpl implements UsersDao {
         try{
             UsersEntity user = new UsersEntity();
             user.setEmail(signupReqModel.getEmail());
-            user.setPassword(bCryptPasswordEncoder.encode(signupReqModel.getPassword()));
+            user.setPassword(userPasswordEncoder.encode(signupReqModel.getPassword()));
             user.setUsername(signupReqModel.getUsername());
             user.setPhone(signupReqModel.getPhone());
+            user.setEnabled(false);
 
             Set<String> strRoles = signupReqModel.getRoles();
             Set<RolesEntity> roles = new HashSet<>();

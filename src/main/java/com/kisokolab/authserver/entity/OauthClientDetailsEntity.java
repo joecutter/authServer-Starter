@@ -11,7 +11,7 @@ import java.util.*;
 @Data
 @Entity
 @Table(name="oauth_client_details")
-public class AppsEntity implements Serializable {
+public class OauthClientDetailsEntity implements Serializable {
 
     @Id
     @Column(name = "client_id")
@@ -34,7 +34,7 @@ public class AppsEntity implements Serializable {
     String additionalInformation;
     String autoapprove;
 
-    public AppsEntity() {
+    public OauthClientDetailsEntity() {
       this.accessTokenValidity = 1000000;
       this.refreshTokenValidity = 1000000;
     }

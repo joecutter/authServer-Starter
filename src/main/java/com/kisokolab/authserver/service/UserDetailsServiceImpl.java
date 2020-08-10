@@ -1,4 +1,4 @@
-package com.kisokolab.authserver.dao.impl;
+package com.kisokolab.authserver.service;
 
 import com.kisokolab.authserver.entity.RolesEntity;
 import com.kisokolab.authserver.entity.UsersEntity;
@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -29,19 +30,20 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<UsersEntity> userEntity = usersRepo.findByEmail(email);
-        if(userEntity.isPresent()){
-            List<GrantedAuthority> authorities = getUserAuthority(userEntity.get().getRoles());
-            return buildUserForAuthentication(userEntity.get(), authorities);
-        }else {
-            throw  new UsernameNotFoundException("User Not Found with email: " + email);
-        }
+        Optional<UsersEntity> optionalUsersEntity = usersRepo.findByEmail(email);
+        optionalUsersEntity.orElseThrow(()->new UsernameNotFoundException("Username or password wrong"));
+        System.out.println("Load User By Username "+optionalUsersEntity.toString());
+        List<GrantedAuthority> authorities = getUserAuthority(optionalUsersEntity.get().getRoles());
+        return buildUserForAuthentication(optionalUsersEntity.get(), authorities);
     }
 
-    private List<GrantedAuthority> getUserAuthority(Set<RolesEntity> userRoles) {
-        List<GrantedAuthority> authorities = userRoles.stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName().name()))
-                .collect(Collectors.toList());
+    private List<GrantedAuthority> getUserAuthority(Set<RolesEntity> rolesEntities) {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+
+        rolesEntities.forEach(role->{
+            authorities.add(new SimpleGrantedAuthority(role.getName().name()));
+            role.getPermissions().forEach(permission -> authorities.add(new SimpleGrantedAuthority(permission.getName())));
+        });
         return authorities;
     }
 
