@@ -21,6 +21,7 @@ import java.util.Set;
 
 @Service
 public class UserDaoImpl implements UsersDao {
+
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
@@ -34,9 +35,9 @@ public class UserDaoImpl implements UsersDao {
 
     @Override
     public ApiResModel createUser(SignupReqModel signupReqModel) {
-        logger.info("Creating user \n"+signupReqModel.toString());
+        logger.info("Creating user \n" + signupReqModel.toString());
         String msg = "User Created Successfully";
-        try{
+        try {
             UsersEntity user = new UsersEntity();
             user.setEmail(signupReqModel.getEmail());
             user.setPassword(userPasswordEncoder.encode(signupReqModel.getPassword()));
@@ -44,37 +45,39 @@ public class UserDaoImpl implements UsersDao {
             user.setPhone(signupReqModel.getPhone());
             user.setEnabled(false);
 
-            Set<String> strRoles = signupReqModel.getRoles();
-            Set<RolesEntity> roles = new HashSet<>();
-
-            if (strRoles == null) {
-                RolesEntity userRole = rolesRepo.findByName(ERole.ROLE_USER).get();
-                roles.add(userRole);
-            } else {
-                strRoles.forEach(role -> {
-                    switch (role) {
-                        case "admin":
-                            RolesEntity adminRole = rolesRepo.findByName(ERole.ROLE_ADMIN).get();
-                            roles.add(adminRole);
-
-                            break;
-                        case "mod":
-                            RolesEntity modRole = rolesRepo.findByName(ERole.ROLE_MODERATOR).get();
-                            roles.add(modRole);
-
-                            break;
-                        default:
-                            RolesEntity userRole = rolesRepo.findByName(ERole.ROLE_USER).get();
-                            roles.add(userRole);
-                    }
-                });
-            }
+            //Set  roles
+            Set<RolesEntity> roles = setRoles(signupReqModel);
 
             user.setRoles(roles);
             usersRepo.save(user);
-            logger.info("\n====== DONE CREATING USER ======\n"+user.toString());
+            logger.info("\n====== DONE CREATING USER ======\n" + user.toString());
             return new ApiResModel(200, true, msg);
-        }catch (Exception ex){
+        } catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
+        }
+        return new ApiResModel(400, false, "Fail to Create User");
+    }
+
+    @Override
+    public ApiResModel insetUser(SignupReqModel signupReqModel) {
+        logger.info("Insert user account \n" + signupReqModel.toString());
+        String msg = "User Inserted Successfully";
+        try {
+            UsersEntity user = new UsersEntity();
+            user.setEmail(signupReqModel.getEmail());
+            user.setPassword(signupReqModel.getPassword());
+            user.setUsername(signupReqModel.getUsername());
+            user.setPhone(signupReqModel.getPhone());
+            user.setEnabled(true);
+
+            //Set  roles
+            Set<RolesEntity> roles = setRoles(signupReqModel);
+
+            user.setRoles(roles);
+            usersRepo.save(user);
+            logger.info("\n====== DONE INSERTING USER ======\n" + user.toString());
+            return new ApiResModel(200, true, msg);
+        } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
         }
         return new ApiResModel(400, false, "Fail to Create User");
@@ -92,13 +95,13 @@ public class UserDaoImpl implements UsersDao {
 
     @Override
     public String disableUser(String email, boolean status) {
-        try{
+        try {
             usersRepo.findByEmail(email).ifPresent(usersEntity -> {
                 usersEntity.setEnabled(status);
                 usersRepo.save(usersEntity);
             });
             return "Status Successfully Updated";
-        }catch (Exception ex){
+        } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
         }
         return "Failed to updated status";
@@ -108,5 +111,49 @@ public class UserDaoImpl implements UsersDao {
     public List<UsersEntity> findAllUsers() {
         return usersRepo.findAll();
     }
-}
 
+    private Set<RolesEntity> setRoles(SignupReqModel signupReqModel) {
+        Set<String> strRoles = signupReqModel.getRoles();
+        Set<RolesEntity> roles = new HashSet<>();
+
+        if (strRoles == null) {
+            RolesEntity userRole = rolesRepo.findByName(ERole.ROLE_USER).get();
+            roles.add(userRole);
+        } else {
+            strRoles.forEach(role -> {
+                switch (role) {
+                    case "admin":
+                        RolesEntity adminRole = rolesRepo.findByName(ERole.ROLE_ADMIN).get();
+                        roles.add(adminRole);
+
+                        break;
+                    case "mod":
+                        RolesEntity modRole = rolesRepo.findByName(ERole.ROLE_MODERATOR).get();
+                        roles.add(modRole);
+
+                        break;
+                    case "agent":
+                        RolesEntity agentRole = rolesRepo.findByName(ERole.ROLE_AGENT).get();
+                        roles.add(agentRole);
+
+                        break;
+                    case "merchant":
+                        RolesEntity merchantRole = rolesRepo.findByName(ERole.ROLE_MERCHANT).get();
+                        roles.add(merchantRole);
+
+                        break;
+                    case "vendor":
+                        RolesEntity vendorRole = rolesRepo.findByName(ERole.ROLE_VENDOR).get();
+                        roles.add(vendorRole);
+
+                        break;
+                    default:
+                        RolesEntity userRole = rolesRepo.findByName(ERole.ROLE_USER).get();
+                        roles.add(userRole);
+                }
+            });
+        }
+
+        return roles;
+    }
+}

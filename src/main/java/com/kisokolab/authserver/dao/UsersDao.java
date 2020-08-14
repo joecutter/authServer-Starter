@@ -10,6 +10,7 @@ import java.util.Optional;
 
 public interface UsersDao {
     ApiResModel createUser(SignupReqModel signupReqModel);
+    ApiResModel insetUser(SignupReqModel signupReqModel);
     Optional<UsersEntity> findUserByEmail(String email);
     boolean existsByEmail(String email);
     String disableUser(String email, boolean status);

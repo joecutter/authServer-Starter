@@ -24,6 +24,7 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
     @Autowired
     @Qualifier("authenticationManagerBean")
     AuthenticationManager authenticationManager;
+    
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
@@ -39,6 +40,7 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security.tokenKeyAccess("permitAll()")
+//                .checkTokenAccess("permitAll()")
                 .checkTokenAccess("isAuthenticated()")
                 .passwordEncoder(clientPasswordEncoder);
     }
