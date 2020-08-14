@@ -39,9 +39,6 @@ create table if not exists authDB.user
     phone                 varchar(256) not null unique,
     password              varchar(256) not null,
     enabled               boolean      not null,
-    accountNonExpired     tinyint(4)   not null,
-    credentialsNonExpired tinyint(4)   not null,
-    accountNonLocked      tinyint(4)   not null,
     createdAt             DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) engine = innodb;
 
