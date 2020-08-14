@@ -54,7 +54,7 @@ create table if not exists authDB.permission
     name varchar(256) not null unique
 ) engine = innodb;
 
-create table if not exists authDB.user_permission
+create table if not exists authDB.permission_role
 (
     permission_id int(11) default null,
     role_id       int(11) default null,
