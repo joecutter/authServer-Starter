@@ -55,9 +55,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      *https://stackoverflow.com/questions/30632200/standalone-spring-oauth2-jwt-authorization-server-cors
      */
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring()
-                .antMatchers(HttpMethod.OPTIONS);
-    }
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        web.ignoring()
+//                .antMatchers(HttpMethod.OPTIONS);
+//    }
 }
