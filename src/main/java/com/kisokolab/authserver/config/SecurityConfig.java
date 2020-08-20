@@ -44,8 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
-                .and()
+//                .requestMatchers(CorsUtils:: isPreFlightRequest).permitAll()
                 .authorizeRequests()
                 .antMatchers("/api/user/**", "/api/client/**", "/oauth/**").permitAll()
                 .antMatchers("/api/user/details/**").authenticated();
