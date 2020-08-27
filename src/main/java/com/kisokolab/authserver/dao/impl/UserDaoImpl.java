@@ -122,27 +122,27 @@ public class UserDaoImpl implements UsersDao {
         } else {
             strRoles.forEach(role -> {
                 switch (role) {
-                    case "admin":
+                    case "ADMIN":
                         RolesEntity adminRole = rolesRepo.findByName(ERole.ROLE_ADMIN).get();
                         roles.add(adminRole);
 
                         break;
-                    case "mod":
+                    case "MOD":
                         RolesEntity modRole = rolesRepo.findByName(ERole.ROLE_MODERATOR).get();
                         roles.add(modRole);
 
                         break;
-                    case "agent":
+                    case "AGENT":
                         RolesEntity agentRole = rolesRepo.findByName(ERole.ROLE_AGENT).get();
                         roles.add(agentRole);
 
                         break;
-                    case "merchant":
+                    case "MERCHANT":
                         RolesEntity merchantRole = rolesRepo.findByName(ERole.ROLE_MERCHANT).get();
                         roles.add(merchantRole);
 
                         break;
-                    case "vendor":
+                    case "VENDOR":
                         RolesEntity vendorRole = rolesRepo.findByName(ERole.ROLE_VENDOR).get();
                         roles.add(vendorRole);
 
