@@ -11,5 +11,8 @@ public class ApiResModel {
     int code;
     boolean status;
     Object message;
+
+    public ApiResModel(int i, boolean b, String s) {
+    }
 }
 

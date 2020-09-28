@@ -38,5 +38,4 @@ public class OauthClientDetailsEntity implements Serializable {
       this.accessTokenValidity = 1000000;
       this.refreshTokenValidity = 1000000;
     }
-
 }

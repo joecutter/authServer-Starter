@@ -20,14 +20,14 @@ public class UsersController {
     UsersDao usersDao;
 
     @PostMapping("/signup")
-    public ResponseEntity<ApiResModel> registerUser(@Valid @RequestBody SignupReqModel signupReqModel) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupReqModel signupReqModel) {
         logger.info("Sign up");
         if (usersDao.existsByEmail(signupReqModel.getEmail())) {
             return ResponseEntity
                     .badRequest()
                     .body(new ApiResModel(400,false,"Error: Email is already in use!"));
         }
-        return ResponseEntity.ok(usersDao.createUser(signupReqModel));
+        return ResponseEntity.ok().body(usersDao.createUser(signupReqModel));
     }
     
     @PostMapping("/insert")
