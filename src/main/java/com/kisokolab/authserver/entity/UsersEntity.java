@@ -13,7 +13,7 @@ import java.util.Set;
 @Table(name="user")
 public class UsersEntity implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String email;
     String username;

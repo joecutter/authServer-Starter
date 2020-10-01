@@ -38,12 +38,12 @@ public class UsersController {
                     .badRequest()
                     .body(new ApiResModel(400,false,"Error: account is already in use!"));
         }
-        return ResponseEntity.ok(usersDao.insetUser(signupReqModel));
+        return ResponseEntity.ok().body(usersDao.insetUser(signupReqModel));
     }
 
     @GetMapping("/details")
     public ResponseEntity<?> getUserDetails(@Valid @RequestParam("username") String username) {
         logger.info("User Details");
-        return ResponseEntity.ok(usersDao.findUserByEmail(username));
+        return ResponseEntity.ok().body(usersDao.findUserByEmail(username));
     }
 }

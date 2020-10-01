@@ -122,7 +122,12 @@ public class UserDaoImpl implements UsersDao {
         } else {
             strRoles.forEach(role -> {
                 switch (role) {
-                    case "ADMIN":
+                    case "SUPER":
+                        RolesEntity superRole = rolesRepo.findByName(ERole.ROLE_SUPERADMIN).get();
+                        roles.add(superRole);
+
+                        break;
+                        case "ADMIN":
                         RolesEntity adminRole = rolesRepo.findByName(ERole.ROLE_ADMIN).get();
                         roles.add(adminRole);
 
