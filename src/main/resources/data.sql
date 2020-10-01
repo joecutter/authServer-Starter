@@ -1,4 +1,4 @@
-INSERT INTO authDB.permission (id, name) VALUES
+INSERT INTO authdb.permission (id, name) VALUES
  (1,'create_account'),
  (2,'create_lead'),
  (3,'create_opportunity'),
@@ -20,13 +20,13 @@ INSERT INTO authDB.permission (id, name) VALUES
  (16,'delete_event'),
  
 
-INSERT INTO authDB.role  (id,name) VALUES
+INSERT INTO authdb.role  (id,name) VALUES
     (1,'ROLE_superAdmin'),
     (2,'ROLE_admin'),
     (3,'ROLE_modirators'),
     (4,'ROLE_user');
 
-INSERT INTO authDB.permission_role (permission_id, role_id) VALUES
+INSERT INTO authdb.permission_role (permission_id, role_id) VALUES
      (1,1),  /*superAdmin */
      (2,1),  /*superAdmin */
      (3,1),  /*superAdmin */
@@ -44,7 +44,7 @@ INSERT INTO authDB.permission_role (permission_id, role_id) VALUES
      (15,1);  /*superAdmin */
      (16,1);  /*superAdmin */
 
-INSERT INTO authDB.user (id, username,password, email, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked) VALUES 
+INSERT INTO authdb.user (id, username,password, email, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked) VALUES 
     ('1', 'batman','{bcrypt}$2a$10$ODGwrk2ufy5d7T6afmACwOA/6j6rvXiP5amAMt1YjOQSdEw44QdqG', 'batman@gmail.com', '1', '1', '1', '1');
 
 --  /*
@@ -52,7 +52,7 @@ INSERT INTO authDB.user (id, username,password, email, enabled, accountNonExpire
 --  batman - kpass
 --  */
 
-INSERT INTO authDB.role_user (ROLE_ID, USER_ID)
+INSERT INTO authdb.role_user (ROLE_ID, USER_ID)
     VALUES
     (1, 1) /* batman-admin */;
 
