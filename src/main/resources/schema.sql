@@ -1,4 +1,4 @@
-create table if not exists authDB.oauth_client_details
+create table if not exists authdb.oauth_client_details
 (
     client_id               VARCHAR(256) PRIMARY KEY,
     resource_ids            VARCHAR(256),
@@ -13,7 +13,7 @@ create table if not exists authDB.oauth_client_details
     autoapprove             VARCHAR(256)
 ) engine = innodb;
 
-create table if not exists authDB.oauth_access_token
+create table if not exists authdb.oauth_access_token
 (
     token_id          VARCHAR(256),
     token             BLOB,
@@ -24,14 +24,14 @@ create table if not exists authDB.oauth_access_token
     refresh_token     VARCHAR(256)
 ) engine = innodb;
 
-create table if not exists authDB.oauth_refresh_token
+create table if not exists authdb.oauth_refresh_token
 (
     token_id       VARCHAR(256),
     token          BLOB,
     authentication BLOB
 ) engine = innodb;
 
-create table if not exists authDB.user
+create table if not exists authdb.user
 (
     id                    bigint       not null primary key auto_increment,
     email                 varchar(256) not null unique,
@@ -42,29 +42,29 @@ create table if not exists authDB.user
     createdAt             DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) engine = innodb;
 
-create table if not exists authDB.role
+create table if not exists authdb.role
 (
     id   int(11)      not null primary key auto_increment,
     name varchar(256) not null unique
 ) engine = innodb;
 
-create table if not exists authDB.permission
+create table if not exists authdb.permission
 (
     id   int(11)      not null primary key auto_increment,
     name varchar(256) not null unique
 ) engine = innodb;
 
-create table if not exists authDB.permission_role
+create table if not exists authdb.permission_role
 (
     permission_id int(11) default null,
     role_id       int(11) default null,
     key permission_id (permission_id),
     key role_id (role_id),
-    constraint fk_permission_id foreign key (permission_id) references authDB.permission (id),
-    constraint fk_role_id foreign key (role_id) references authDB.role (id)
+    constraint fk_permission_id foreign key (permission_id) references authdb.permission (id),
+    constraint fk_role_id foreign key (role_id) references authdb.role (id)
 ) engine = innodb;
 
-create table if not exists authDB.role_user
+create table if not exists authdb.role_user
 (
     role_id int(11) default null,
     user_id bigint  default null,
